@@ -107,19 +107,19 @@ void GameScene::Initialize() {
 
 	for (int32_t i = 0; i < 3; i++) {
 		Enemy* newEnemy = new Enemy();
-		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(15, 18-i);
+		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(15, 28-i);
 		newEnemy->Initialize(enemyPosition, &viewProjection_);
 		enemies_.push_back(newEnemy);
 	}
 	for (int32_t i = 0; i < 3; i++) {
 		Enemy* newEnemy = new Enemy();
-		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(48, 18 - i);
+		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(48, 28 - i);
 		newEnemy->Initialize(enemyPosition, &viewProjection_);
 		enemies_.push_back(newEnemy);
 	}
 	for (int32_t i = 0; i < 3; i++) {
 		Enemy* newEnemy = new Enemy();
-		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(81, 18 - i);
+		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(81, 28 - i);
 		newEnemy->Initialize(enemyPosition, &viewProjection_);
 		enemies_.push_back(newEnemy);
 	}
@@ -371,7 +371,7 @@ void GameScene::ChangePhase() {
 			    } else if (player_->GetSpawn() == 1) {
 				phase_ = Phase::kPlay;
 				
-				player_->Respawn(mapChipField_->GetMapChipPositionByIndex(52, 10));
+				player_->Respawn(mapChipField_->GetMapChipPositionByIndex(13, 27));
 
 			    }
                 

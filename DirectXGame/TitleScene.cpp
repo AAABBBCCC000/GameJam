@@ -20,7 +20,7 @@ void TitleScene::Initialize() {
 	worldTransformTitle_.scale_ = {kTitleScale, kTitleScale, kTitleScale};
 	worldTransformTitle_.rotation_.x = std::numbers::pi_v<float> / 2.0f;
 	worldTransformTitle_.rotation_.y = std::numbers::pi_v<float>;
-	worldTransformTitle_.translation_.x = -19.0f;
+	worldTransformTitle_.translation_.x = -27.0f;
 	const float kPlayerScale = 10.0f;
 	worldTransformPlayer_.Initialize();
 	worldTransformPlayer_.scale_ = {kPlayerScale, kPlayerScale, kPlayerScale};
