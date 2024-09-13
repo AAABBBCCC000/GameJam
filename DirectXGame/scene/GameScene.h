@@ -99,6 +99,8 @@ private: // メンバ変数
 	// 3Dモデル
 	Model* modelSkydome_ = nullptr;
 
+	uint32_t keyControlTH_ = 0;
+	Sprite* keyControlSprite_ = nullptr;
 	// マップチップフィールド
 	MapChipField* mapChipField_ = nullptr;
 

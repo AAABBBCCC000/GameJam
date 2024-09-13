@@ -57,6 +57,8 @@ GameScene::~GameScene() {
 	enemies_.clear();
 
 	delete deathParticles_;
+
+	delete keyControlSprite_;
 }
 
 void GameScene::Initialize() {
@@ -67,6 +69,8 @@ void GameScene::Initialize() {
 
 	// ファイル名を指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("block.jpg");
+	keyControlTH_ = TextureManager::Load("keyControl.png");
+	keyControlSprite_ = Sprite::Create(keyControlTH_, {40, 40});
 	// 3Dモデルの生成
 	model_ = Model::Create();
 	modelBlock_ = Model::CreateFromOBJ("block");
@@ -595,7 +599,9 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-
+	if (player_->GetSpawn() == 0) {
+		keyControlSprite_->Draw();
+	}
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
