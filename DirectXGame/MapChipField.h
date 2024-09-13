@@ -12,6 +12,7 @@ enum class MapChipType {
 	kBlock, // ブロック
 	kSaveBlock, // Save
 	kGoalBlock, // Goal
+	kThornBlock, //棘
 };
 
 

@@ -51,6 +51,7 @@ public: // メンバ関数
 	void GenerateBlocks();
 	void GenerateGoalBlocks();
 	void GenerateSaveBlocks();
+	void GenerateThornBlocks();
 	void CheckAllCollisions();
 	void ChangePhase();
 	bool IsFinished() const { return finished_; }
@@ -74,6 +75,7 @@ private: // メンバ変数
 	Model* modelBlock_ = nullptr;
 	Model* modelGoal_ = nullptr;
 	Model* modelSave_ = nullptr;
+	Model* modelThorn_ = nullptr;
 	// ワールドトランスフォーム
 	WorldTransform worldTransform_;
 	// ビュープロジェクション
@@ -86,6 +88,7 @@ private: // メンバ変数
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 	std::vector<std::vector<WorldTransform*>> worldTransformGoalBlocks_;
 	std::vector<std::vector<WorldTransform*>> worldTransformSaveBlocks_;
+	std::vector<std::vector<WorldTransform*>> worldTransformThornBlocks_;
 	// デバッグカメラ有効
 	bool isDebugCameraActive_ = false;
 	// デバッグカメラ

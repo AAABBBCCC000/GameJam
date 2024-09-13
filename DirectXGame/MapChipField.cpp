@@ -11,6 +11,7 @@ namespace {
         {"1", MapChipType::kBlock},
         {"2", MapChipType::kSaveBlock},
         {"3", MapChipType::kGoalBlock},
+        {"4", MapChipType::kThornBlock},
     };
 }
 

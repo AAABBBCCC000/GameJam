@@ -8,20 +8,21 @@ void Enemy::Initialize(const Vector3& position, ViewProjection* viewProjection) 
 
 	viewProjection_ = viewProjection;
 
-	worldTransform_.rotation_.y = -(std::numbers::pi_v<float> / 2.0f);
+	//worldTransform_.rotation_.y = -(std::numbers::pi_v<float> / 2.0f);
 
 	// 引数の内容をメンバ変数に記録
 	model_ = Model::CreateFromOBJ("enemy", true);
 	
-	velocity_ = {-kWalkSpeed, 0, 0};
 	walkTimer_ = 0.0f;
 
 }
 void Enemy::Update() {
+	worldTransform_.rotation_.y = (std::numbers::pi_v<float> / 2.0f) * direction_;
 	walkTimer_ += 1.0f / 60.0f;
 	float param = std::sin(2 * std::numbers::pi_v<float> * walkTimer_ / kWalkMotionTime);
 	float radian = kWalkMotionAngleStart + kWalkMotionAngleEnd * (param + 1.0f) / 2.0f;
 	worldTransform_.rotation_.x =radian;
+	velocity_ = {kWalkSpeed * direction_, 0, 0};
 	worldTransform_.UpdateMatrix();
 	worldTransform_.translation_ += velocity_;
 
@@ -41,6 +42,10 @@ Vector3 Enemy::GetWorldPosition() {
  void Enemy::SetWorldPositionX(float pos) {
 	worldTransform_.translation_.x = pos;
 }
+
+ void Enemy::SetDirection(int8_t direction) {
+	 direction_ = direction;
+ }
 
 AABB Enemy::GetAABB() {
 	Vector3 worldPos = GetWorldPosition();

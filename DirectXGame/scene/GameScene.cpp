@@ -32,6 +32,12 @@ GameScene::~GameScene() {
 		}
 	}
 
+	for (std::vector<WorldTransform*>& worldTransformThornBlockLine : worldTransformThornBlocks_) {
+		for (WorldTransform* worldTransformThornBlock : worldTransformThornBlockLine) {
+			delete worldTransformThornBlock;
+		}
+	}
+
 	worldTransformGoalBlocks_.clear();
 
 	delete debugCamera_;
@@ -66,6 +72,7 @@ void GameScene::Initialize() {
 	modelBlock_ = Model::CreateFromOBJ("block");
 	modelGoal_ = Model::CreateFromOBJ("goalBlock");
 	modelSave_ = Model::CreateFromOBJ("saveBlock");
+	modelThorn_ = Model::CreateFromOBJ("toge");
 	// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 	// ビュープロジェクションの初期化
@@ -96,6 +103,7 @@ void GameScene::Initialize() {
 	GenerateBlocks();
 	GenerateGoalBlocks();
 	GenerateSaveBlocks();
+	GenerateThornBlocks();
 
 	cameraController = new CameraController;
 	cameraController->Initialize();
@@ -105,24 +113,90 @@ void GameScene::Initialize() {
 	CameraController::Rect cameraArea = {3.0f, 20.f - 3.0f, 5.0f, 120.0f - 5.0f};//================================
 	cameraController->SetMovableArea(cameraArea);
 
-	for (int32_t i = 0; i < 3; i++) {
+	
+	for (int32_t i = 0; i < 1; i++) {
 		Enemy* newEnemy = new Enemy();
-		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(15, 28-i);
+		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(20, 17-i);
 		newEnemy->Initialize(enemyPosition, &viewProjection_);
+		newEnemy->SetDirection(-1);
+		enemies_.push_back(newEnemy);
+	}
+	for (int32_t i = 0; i < 1; i++) {
+		Enemy* newEnemy = new Enemy();
+		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(0, 21 - i);
+		newEnemy->Initialize(enemyPosition, &viewProjection_);
+		newEnemy->SetDirection(1);
+		enemies_.push_back(newEnemy);
+	}
+	for (int32_t i = 0; i < 1; i++) {
+		Enemy* newEnemy = new Enemy();
+		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(0, 26 - i);
+		newEnemy->Initialize(enemyPosition, &viewProjection_);
+		newEnemy->SetDirection(1);
+		enemies_.push_back(newEnemy);
+	}
+	for (int32_t i = 0; i < 2; i++) {
+		Enemy* newEnemy = new Enemy();
+		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(0, 36 - i);
+		newEnemy->Initialize(enemyPosition, &viewProjection_);
+		newEnemy->SetDirection(1);
+		enemies_.push_back(newEnemy);
+	}
+	for (int32_t i = 0; i < 2; i++) {
+		Enemy* newEnemy = new Enemy();
+		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(0, 44 - i);
+		newEnemy->Initialize(enemyPosition, &viewProjection_);
+		newEnemy->SetDirection(-1);
+		enemies_.push_back(newEnemy);
+	}
+	for (int32_t i = 0; i < 1; i++) {
+		Enemy* newEnemy = new Enemy();
+		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(0, 48 - i);
+		newEnemy->Initialize(enemyPosition, &viewProjection_);
+		newEnemy->SetDirection(1);
+		enemies_.push_back(newEnemy);
+	}
+	for (int32_t i = 0; i < 2; i++) {
+		Enemy* newEnemy = new Enemy();
+		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(0, 58 - i);
+		newEnemy->Initialize(enemyPosition, &viewProjection_);
+		newEnemy->SetDirection(1);
+		enemies_.push_back(newEnemy);
+	}
+	for (int32_t i = 0; i < 1; i++) {
+		Enemy* newEnemy = new Enemy();
+		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(0, 80 - i);
+		newEnemy->Initialize(enemyPosition, &viewProjection_);
+		newEnemy->SetDirection(-1);
+		enemies_.push_back(newEnemy);
+	}
+	for (int32_t i = 0; i < 2; i++) {
+		Enemy* newEnemy = new Enemy();
+		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(0, 92 - i);
+		newEnemy->Initialize(enemyPosition, &viewProjection_);
+		newEnemy->SetDirection(1);
 		enemies_.push_back(newEnemy);
 	}
 	for (int32_t i = 0; i < 3; i++) {
 		Enemy* newEnemy = new Enemy();
-		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(48, 28 - i);
+		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(0, 111 - i);
 		newEnemy->Initialize(enemyPosition, &viewProjection_);
+		newEnemy->SetDirection(-1);
 		enemies_.push_back(newEnemy);
 	}
 	for (int32_t i = 0; i < 3; i++) {
 		Enemy* newEnemy = new Enemy();
-		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(81, 28 - i);
+		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(0, 115 - i);
 		newEnemy->Initialize(enemyPosition, &viewProjection_);
+		newEnemy->SetDirection(1);
 		enemies_.push_back(newEnemy);
 	}
+	//for (int32_t i = 0; i < 3; i++) {
+	//	Enemy* newEnemy = new Enemy();
+	//	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(81, 28 - i);
+	//	newEnemy->Initialize(enemyPosition, &viewProjection_);
+	//	enemies_.push_back(newEnemy);
+	//}
 	phase_ = Phase::kPlay;
 }
 
@@ -204,6 +278,32 @@ void GameScene::GenerateSaveBlocks() {
 	}
 }
 
+void GameScene::GenerateThornBlocks() {
+
+	// 要素数
+	uint32_t numBlockVirtical = mapChipField_->GetNumBlockVirtical();
+	uint32_t numBlockHorizontal = mapChipField_->GetNumBlockHorizontal();
+
+	// 要素数を変更する
+	worldTransformThornBlocks_.resize(numBlockVirtical);
+
+	// キューブの生成
+	for (uint32_t i = 0; i < numBlockVirtical; ++i) {
+		worldTransformThornBlocks_[i].resize(numBlockHorizontal);
+	}
+
+	for (uint32_t i = 0; i < numBlockVirtical; ++i) {
+		for (uint32_t j = 0; j < numBlockHorizontal; ++j) {
+			if (mapChipField_->GetMapChipTypeByIndex(j, i) == MapChipType::kThornBlock) {
+				WorldTransform* worldTransform = new WorldTransform();
+				worldTransform->Initialize();
+				worldTransformThornBlocks_[i][j] = worldTransform;
+				worldTransformThornBlocks_[i][j]->translation_ = mapChipField_->GetMapChipPositionByIndex(j, i);
+			}
+		}
+	}
+}
+
 void GameScene::CheckAllCollisions() {
 	AABB aabb1,aabb2;
 #pragma region
@@ -238,11 +338,15 @@ void GameScene::Update() {
 		// 自キャラの更新
 		player_->Update();
 		for (Enemy* enemy : enemies_) {
+				//enemy->SetDirection(1);
 			if (enemy != nullptr) {
 				enemy->Update();
 			}
-			if (enemy->GetWorldPosition().x < mapChipField_->GetMapChipPositionByIndex(0, 18).x) {
-				enemy->SetWorldPositionX(mapChipField_->GetMapChipPositionByIndex(100, 0).x);
+			if (enemy->GetWorldPosition().x < (mapChipField_->GetMapChipPositionByIndex(0, 0).x)-8.0f) {
+				enemy->SetWorldPositionX((mapChipField_->GetMapChipPositionByIndex(20, 0).x)+8.0f);
+			}
+			if (enemy->GetWorldPosition().x > (mapChipField_->GetMapChipPositionByIndex(20, 0).x)+8.0f) {
+				enemy->SetWorldPositionX((mapChipField_->GetMapChipPositionByIndex(0, 0).x)-8.0f);
 			}
 		}
 
@@ -304,6 +408,20 @@ void GameScene::Update() {
 
 				// 定数バッファに転送
 				worldTransformSaveBlockYoko->TransferMatrix();
+			}
+		}
+
+		for (std::vector<WorldTransform*> worldTransformThornBlockTate : worldTransformThornBlocks_) {
+			for (WorldTransform* worldTransformThornBlockYoko : worldTransformThornBlockTate) {
+				if (!worldTransformThornBlockYoko)
+					continue;
+
+				// アフィン変換行列の作成
+				//(MakeAffineMatrix：自分で作った数学系関数)
+				worldTransformThornBlockYoko->matWorld_ = MakeAffineMatrix(worldTransformThornBlockYoko->scale_, worldTransformThornBlockYoko->rotation_, worldTransformThornBlockYoko->translation_);
+
+				// 定数バッファに転送
+				worldTransformThornBlockYoko->TransferMatrix();
 			}
 		}
 		CheckAllCollisions();
@@ -373,7 +491,11 @@ void GameScene::ChangePhase() {
 				
 				player_->Respawn(mapChipField_->GetMapChipPositionByIndex(13, 27));
 
-			    }
+			    } else if (player_->GetSpawn() == 2) {
+				phase_ = Phase::kPlay;
+
+				player_->Respawn(mapChipField_->GetMapChipPositionByIndex(4, 73));
+				}
                 
 			    
 			}
@@ -452,6 +574,14 @@ void GameScene::Draw() {
 				continue;
 
 			modelSave_->Draw(*worldTransformSaveBlockYoko, viewProjection_);
+		}
+	}
+	for (std::vector<WorldTransform*> worldTransformThornBlockTate : worldTransformThornBlocks_) {
+		for (WorldTransform* worldTransformThornBlockYoko : worldTransformThornBlockTate) {
+			if (!worldTransformThornBlockYoko)
+				continue;
+
+			modelThorn_->Draw(*worldTransformThornBlockYoko, viewProjection_);
 		}
 	}
 	// 3Dオブジェクト描画後処理

@@ -102,7 +102,12 @@ void Player::CheckMapCollisionUp(CollisionMapInfo& info) {
 	if (mapChipType == MapChipType::kBlock) {
 		hit = true;
 	}
-
+	if (mapChipType == MapChipType::kSaveBlock) {
+		hit = true;
+	}
+	if (mapChipType == MapChipType::kThornBlock) {
+		hit = true;
+	}
 	// 右上点の判定
 	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionsNew[kRightTop]);
 
@@ -111,7 +116,12 @@ void Player::CheckMapCollisionUp(CollisionMapInfo& info) {
 	if (mapChipType == MapChipType::kBlock) {
 		hit = true;
 	}
-
+	if (mapChipType == MapChipType::kSaveBlock) {
+		hit = true;
+	}
+	if (mapChipType == MapChipType::kThornBlock) {
+		hit = true;
+	}
 		// ブロックにヒット？
 	if (hit) {
 		// めり込みを排除する方向に移動量を設定する
@@ -152,7 +162,20 @@ void Player::CheckMapCollisionDown(CollisionMapInfo& info) {
 	}
 	if (mapChipType == MapChipType::kSaveBlock) {
 		hit = true;
+	}
+	if (indexSet.xIndex == 13 && indexSet.yIndex == 28) {
 		spawn_ = 1;
+	}
+	if (indexSet.xIndex == 4 && indexSet.yIndex == 74) {
+		spawn_ = 2;
+	}
+	if (mapChipType == MapChipType::kGoalBlock) {
+		hit = true;
+		hitGoal_ = true;
+	}
+	if (mapChipType == MapChipType::kThornBlock) {
+		hit = true;
+		isDead_ = true;
 	}
 	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionsNew[kRightBottom]);
 	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
@@ -162,11 +185,20 @@ void Player::CheckMapCollisionDown(CollisionMapInfo& info) {
 	}
 	if (mapChipType == MapChipType::kSaveBlock) {
 		hit = true;
-		spawn_ = 1;
+	}
+	if (indexSet.xIndex == 13 && indexSet.yIndex == 28) {
+	    spawn_ = 1;
+	}
+	if (indexSet.xIndex == 4 && indexSet.yIndex == 74) {
+		spawn_ = 2;
 	}
 	if (mapChipType == MapChipType::kGoalBlock) {
 		hit = true;
 		hitGoal_ = true;
+	}
+	if (mapChipType == MapChipType::kThornBlock) {
+		hit = true;
+		isDead_ = true;
 	}
 	// ブロックにヒット？
 	if (hit) {
@@ -250,11 +282,29 @@ void Player::CheckMapCollisionLeft(CollisionMapInfo& info) {
 	if (mapChipType == MapChipType::kBlock && mapChipTypeNext != MapChipType::kBlock) {
 		hit = true;
 	}
+	if (mapChipType == MapChipType::kSaveBlock && mapChipTypeNext != MapChipType::kSaveBlock) {
+		hit = true;
+	}
+	if (mapChipType == MapChipType::kGoalBlock && mapChipTypeNext != MapChipType::kGoalBlock) {
+		hit = true;
+	}
+	if (mapChipType == MapChipType::kThornBlock && mapChipTypeNext != MapChipType::kThornBlock) {
+		hit = true;
+	}
 	// 左下点の判定
 	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionsNew[kLeftBottom]);
 	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
 	mapChipTypeNext = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex + 1, indexSet.yIndex);
 	if (mapChipType == MapChipType::kBlock && mapChipTypeNext != MapChipType::kBlock) {
+		hit = true;
+	}
+	if (mapChipType == MapChipType::kSaveBlock && mapChipTypeNext != MapChipType::kSaveBlock) {
+		hit = true;
+	}
+	if (mapChipType == MapChipType::kGoalBlock && mapChipTypeNext != MapChipType::kGoalBlock) {
+		hit = true;
+	}
+	if (mapChipType == MapChipType::kThornBlock && mapChipTypeNext != MapChipType::kThornBlock) {
 		hit = true;
 	}
 	// ブロックにヒット？
@@ -291,11 +341,28 @@ void Player::CheckMapCollisionRight(CollisionMapInfo& info) {
 	if (mapChipType == MapChipType::kBlock && mapChipTypeNext != MapChipType::kBlock) {
 		hit = true;
 	}
-	
+	if (mapChipType == MapChipType::kSaveBlock && mapChipTypeNext != MapChipType::kSaveBlock) {
+		hit = true;
+	}
+	if (mapChipType == MapChipType::kGoalBlock && mapChipTypeNext != MapChipType::kGoalBlock) {
+		hit = true;
+	}
+	if (mapChipType == MapChipType::kThornBlock && mapChipTypeNext != MapChipType::kThornBlock) {
+		hit = true;
+	}
 	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionsNew[kRightBottom]);
 	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
 	mapChipTypeNext = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex - 1, indexSet.yIndex);
 	if (mapChipType == MapChipType::kBlock && mapChipTypeNext != MapChipType::kBlock) {
+		hit = true;
+	}
+	if (mapChipType == MapChipType::kSaveBlock && mapChipTypeNext != MapChipType::kSaveBlock) {
+		hit = true;
+	}
+	if (mapChipType == MapChipType::kGoalBlock && mapChipTypeNext != MapChipType::kGoalBlock) {
+		hit = true;
+	}
+	if (mapChipType == MapChipType::kThornBlock && mapChipTypeNext != MapChipType::kThornBlock) {
 		hit = true;
 	}
 	// ブロックにヒット？

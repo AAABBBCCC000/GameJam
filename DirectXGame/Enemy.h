@@ -16,6 +16,7 @@ public:
 	Vector3 GetWorldPosition();
 	void SetWorldPositionX(float pos);
 	AABB GetAABB();
+	void SetDirection(int8_t direction);
 	
 private:
 	WorldTransform worldTransform_;
@@ -23,7 +24,7 @@ private:
 	Model* model_ = nullptr;
 	Vector3 velocity_ = {};
 	float walkTimer_ = 0.0f;
-
+	int8_t direction_;
 	static inline const float kWalkSpeed = 0.05f;
 	static inline const float kWalkMotionAngleStart = std::numbers::pi_v<float>/6.0f;
 	static inline const float kWalkMotionAngleEnd = -(std::numbers::pi_v<float> / 4.0f);
